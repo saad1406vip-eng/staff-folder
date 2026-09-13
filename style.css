@@ -1,0 +1,623 @@
+/* =========================================
+   إعدادات عامة والمتغيرات
+   ========================================= */
+:root {
+    --primary-color: #2E7D32;      /* أخضر طبي */
+    --primary-dark: #1B5E20;       /* أخضر غامق */
+    --secondary-color: #1565C0;    /* أزرق */
+    --secondary-dark: #0D47A1;     /* أزرق غامق */
+    --success-color: #2E7D32;      /* أخضر للنجاح */
+    --bg-color: #F4F7F6;           /* خلفية فاتحة */
+    --card-bg: #FFFFFF;            /* خلفية البطاقات */
+    --text-main: #333333;          /* نص أساسي */
+    --text-muted: #666666;         /* نص ثانوي */
+    --border-color: #E0E0E0;       /* حدود */
+    --shadow-sm: 0 2px 5px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 10px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Tajawal', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    direction: rtl;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* =========================================
+   الهيدر (رأس الصفحة)
+   ========================================= */
+header {
+    background-color: var(--card-bg);
+    padding: 20px 0;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 30px;
+    border-bottom: 3px solid var(--primary-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-area i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.logo-area h1 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+    font-weight: 700;
+}
+
+.logo-area p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.search-box {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 42px 12px 15px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    background-color: var(--bg-color);
+    transition: all 0.3s ease;
+    outline: none;
+    color: var(--text-main);
+}
+
+.search-box input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+    background-color: #fff;
+}
+
+.search-box i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+/* =========================================
+   شريط الأدوات الرئيسي
+   ========================================= */
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: var(--primary-dark); }
+
+.btn-success { background-color: var(--success-color); color: white; }
+.btn-success:hover { background-color: var(--primary-dark); }
+
+.btn-secondary { background-color: var(--secondary-color); color: white; }
+.btn-secondary:hover { background-color: var(--secondary-dark); }
+
+.btn-light { background-color: #EEEEEE; color: #333; }
+.btn-light:hover { background-color: #DDDDDD; }
+
+.btn-block { width: 100%; }
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+/* =========================================
+   شريط التحديد الجماعي
+   ========================================= */
+.selection-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    flex-wrap: wrap;
+    gap: 10px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.selection-bar.active {
+    opacity: 1;
+    border-color: var(--primary-color);
+    background: #F1F8E9;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
+}
+
+.selection-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+.selection-info i {
+    font-size: 1.2rem;
+}
+
+.selection-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* =========================================
+   شبكة عرض الموظفين (البطاقات)
+   ========================================= */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.card.selected {
+    border-color: var(--primary-color);
+    background-color: #F1F8E9;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+}
+
+.card-checkbox {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+}
+
+.card-checkbox input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.card img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 3px solid var(--bg-color);
+    object-fit: cover;
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.card .job-id {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: var(--bg-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.card .job-title {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-top: auto;
+}
+
+.card-actions button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn-view { background-color: #E3F2FD; color: #1565C0; }
+.btn-view:hover { background-color: #BBDEFB; }
+
+.btn-print-single { background-color: #FFF3E0; color: #E65100; }
+.btn-print-single:hover { background-color: #FFE0B2; }
+
+/* =========================================
+   النوافذ المنبثقة (Modals)
+   ========================================= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow-y: auto;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.close:hover { color: #333; }
+
+.modal-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    border-bottom: 2px solid var(--bg-color);
+    padding-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-content .subtitle {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bg-color);
+    gap: 10px;
+}
+
+.info-row span:first-child {
+    font-weight: 700;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.info-row span:last-child {
+    color: var(--text-main);
+    font-weight: 500;
+    text-align: left;
+    word-break: break-word;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 25px;
+    background: var(--bg-color);
+    padding: 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.checkbox-group label:hover {
+    background: rgba(46, 125, 50, 0.05);
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* =========================================
+   منطقة الطباعة الجماعية
+   ========================================= */
+.print-area {
+    display: none;
+    padding: 20px;
+    background: white;
+}
+
+.print-area h2 {
+    text-align: center;
+    margin-bottom: 5px;
+    color: #000;
+    font-size: 1.4rem;
+}
+
+.print-area p {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.print-area table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-top: 15px;
+}
+
+.print-area table th, 
+.print-area table td {
+    border: 1px solid #333;
+    padding: 8px 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.print-area table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    color: #000;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   إعدادات الطباعة
+   ========================================= */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    /* إظهار منطقة الطباعة الجماعية فقط */
+    #printArea, #printArea * {
+        visibility: visible;
+    }
+    #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        display: block !important;
+        padding: 10px;
+        background: white;
+    }
+
+    /* إظهار ملف الموظف الفردي عند الطباعة */
+    #modal .modal-content, #modal .modal-content * {
+        visibility: visible;
+    }
+    #modal .modal-content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        box-shadow: none;
+        border: 1px solid #000;
+        border-radius: 0;
+    }
+    
+    /* إخفاء العناصر غير المرغوبة عند الطباعة */
+    .close, .btn, .card-actions, .toolbar, .search-box, 
+    .modal-actions, .selection-bar, header {
+        display: none !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+}
+
+/* =========================================
+   التجاوب مع الجوال (Responsive)
+   ========================================= */
+@media (max-width: 768px) {
+    .header-content { 
+        flex-direction: column; 
+        align-items: stretch; 
+    }
+    
+    .search-box { 
+        max-width: 100%; 
+    }
+    
+    .toolbar { 
+        flex-direction: column; 
+    }
+    
+    .btn { 
+        width: 100%; 
+        justify-content: center; 
+    }
+    
+    .selection-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .selection-actions {
+        flex-direction: column;
+    }
+    
+    .selection-actions .btn {
+        width: 100%;
+    }
+    
+    .checkbox-group { 
+        grid-template-columns: 1fr; 
+    }
+    
+    .modal-content { 
+        width: 95%; 
+        margin: 10% auto; 
+        padding: 20px; 
+    }
+    
+    .logo-area {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .info-row span:last-child {
+        text-align: right;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card img {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .card h3 {
+        font-size: 1rem;
+    }
+}
