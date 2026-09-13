@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل فريق المختبر - مستشفى سبت العلايا</title>
+    <!-- استدعاء الخطوط والأيقونات -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- ملف التصميم -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- الهيدر -->
+    <header>
+        <div class="container header-content">
+            <div class="logo-area">
+                <i class="fas fa-microscope"></i>
+                <div>
+                    <h1>دليل فريق المختبر</h1>
+                    <p>مستشفى سبت العلايا العام - إدارة الخدمات الطبية المساندة</p>
+                </div>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="ابحث بالاسم، الرقم الوظيفي، أو السجل المدني...">
+            </div>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container">
+        <!-- شريط الأدوات -->
+        <div class="toolbar">
+            <button onclick="openPrintModal()" class="btn btn-primary"><i class="fas fa-print"></i> طباعة قائمة مخصصة (A4)</button>
+            <button onclick="exportToExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i> تصدير إلى Excel</button>
+            <button onclick="shareAll()" class="btn btn-secondary"><i class="fas fa-share-alt"></i> مشاركة القائمة كاملة</button>
+        </div>
+
+        <!-- شبكة عرض الموظفين -->
+        <div id="employeeGrid" class="grid"></div>
+    </main>
+
+    <!-- نافذة عرض ملف الموظف الفردي -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- نافذة تخصيص الطباعة -->
+    <div id="printModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePrintModal()">&times;</span>
+            <h2><i class="fas fa-cogs"></i> تخصيص بيانات الطباعة</h2>
+            <p class="subtitle">اختر الحقول التي تريد ظهورها في الجدول:</p>
+            
+            <div class="checkbox-group">
+                <label><input type="checkbox" class="print-field" value="id" checked> الرقم الوظيفي</label>
+                <label><input type="checkbox" class="print-field" value="name" checked> الاسم</label>
+                <label><input type="checkbox" class="print-field" value="nationalId" checked> السجل المدني / الهوية</label>
+                <label><input type="checkbox" class="print-field" value="jobTitle"> المسمى الوظيفي</label>
+                <label><input type="checkbox" class="print-field" value="mobile"> رقم الجوال</label>
+                <label><input type="checkbox" class="print-field" value="email"> البريد الإلكتروني</label>
+                <label><input type="checkbox" class="print-field" value="qualification"> المؤهل العلمي</label>
+                <label><input type="checkbox" class="print-field" value="nationality"> الجنسية</label>
+                <label><input type="checkbox" class="print-field" value="startDate"> تاريخ التعيين</label>
+                <label><input type="checkbox" class="print-field" value="department"> الإدارة</label>
+            </div>
+
+            <div class="modal-actions">
+                <button onclick="printSelectedData()" class="btn btn-primary btn-block"><i class="fas fa-print"></i> طباعة البيانات المحددة</button>
+                <button onclick="closePrintModal()" class="btn btn-light btn-block">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- منطقة الطباعة الجماعية (مخفية في الشاشة) -->
+    <div id="printArea" class="print-area"></div>
+
+    <!-- ملف البيانات وملف البرمجة -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
