@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة معلومات الموظفين - مستشفى سبت العلايا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo-area">
+                <i class="fas fa-users-cog"></i>
+                <div>
+                    <h1>إدارة معلومات الموظفين</h1>
+                    <p>مستشفى سبت العلايا العام - إدارة الخدمات الطبية المساندة - قسم المختبر</p>
+                </div>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="ابحث بالاسم، الرقم الوظيفي، أو السجل المدني...">
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="toolbar">
+            <button onclick="openPrintModal()" class="btn btn-primary"><i class="fas fa-print"></i> طباعة القائمة (A4)</button>
+            <button onclick="exportToExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i> تصدير إلى Excel</button>
+            <button onclick="shareAll()" class="btn btn-secondary"><i class="fas fa-share-alt"></i> مشاركة القائمة</button>
+            <button onclick="openGeneratorModal()" class="btn btn-generator"><i class="fas fa-file-signature"></i> توليد نموذج إداري</button>
+        </div>
+
+        <div class="selection-bar" id="selectionBar">
+            <div class="selection-info">
+                <i class="fas fa-check-circle"></i>
+                <span id="selectedCount">0</span> موظف محدد
+            </div>
+            <div class="selection-actions">
+                <button onclick="selectAllVisible()" class="btn btn-sm btn-light"><i class="fas fa-check-double"></i> تحديد الكل</button>
+                <button onclick="clearSelection()" class="btn btn-sm btn-light"><i class="fas fa-times"></i> إلغاء التحديد</button>
+                <button onclick="openPrintModal(true)" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> طباعة المحددين</button>
+                <button onclick="exportSelectedToExcel()" class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> تصدير المحددين</button>
+            </div>
+        </div>
+
+        <div id="employeeGrid" class="grid"></div>
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <div id="printModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePrintModal()">&times;</span>
+            <h2><i class="fas fa-cogs"></i> تخصيص بيانات الطباعة</h2>
+            <p class="subtitle" id="printScopeText">سيتم طباعة جميع الموظفين. اختر الحقول المطلوبة:</p>
+            
+            <div class="checkbox-group">
+                <label><input type="checkbox" class="print-field" value="id" checked> الرقم الوظيفي</label>
+                <label><input type="checkbox" class="print-field" value="name" checked> الاسم</label>
+                <label><input type="checkbox" class="print-field" value="nationalId" checked> السجل المدني / الهوية</label>
+                <label><input type="checkbox" class="print-field" value="jobTitle"> المسمى الوظيفي</label>
+                <label><input type="checkbox" class="print-field" value="mobile"> رقم الجوال</label>
+                <label><input type="checkbox" class="print-field" value="email"> البريد الإلكتروني</label>
+                <label><input type="checkbox" class="print-field" value="qualification"> المؤهل العلمي</label>
+                <label><input type="checkbox" class="print-field" value="nationality"> الجنسية</label>
+                <label><input type="checkbox" class="print-field" value="startDate"> تاريخ التعيين</label>
+                <label><input type="checkbox" class="print-field" value="department"> الإدارة</label>
+            </div>
+
+            <div class="modal-actions">
+                <button onclick="printSelectedData()" class="btn btn-primary btn-block"><i class="fas fa-print"></i> طباعة</button>
+                <button onclick="closePrintModal()" class="btn btn-light btn-block">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="generatorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeGeneratorModal()">&times;</span>
+            <h2><i class="fas fa-file-signature"></i> توليد نموذج إداري</h2>
+            <p class="subtitle">اختر نوع النموذج، الموظف، والبيانات المطلوبة:</p>
+
+            <div class="form-group">
+                <label>نوع النموذج:</label>
+                <select id="formType" class="form-control" onchange="toggleFormFields()">
+                    <option value="training">محضر تدريب داخلي</option>
+                    <option value="warning">إنذار داخلي</option>
+                    <option value="assignment">تكليف داخلي</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>اختر الموظف:</label>
+                <select id="formEmployee" class="form-control"></select>
+            </div>
+
+            <div id="fieldTraining" class="form-section">
+                <div class="form-group">
+                    <label>القسم / الجهاز:</label>
+                    <select id="trainingDept" class="form-control">
+                        <option value="">-- اختر القسم أو الجهاز --</option>
+                        <optgroup label="الأقسام">
+                            <option value="كيمياء">كيمياء</option>
+                            <option value="هرمون">هرمون</option>
+                            <option value="مناعة">مناعة</option>
+                            <option value="بكتيريا">بكتيريا</option>
+                            <option value="بنك دم">بنك دم</option>
+                            <option value="علم أمراض الدم">علم أمراض الدم</option>
+                        </optgroup>
+                        <optgroup label="الأجهزة">
+                            <option value="Siemens Atellica">Siemens Atellica</option>
+                            <option value="Cobas Pure (C303 + e402)">Cobas Pure (C303 + e402)</option>
+                            <option value="Cobas c311">Cobas c311</option>
+                            <option value="Cobas e411">Cobas e411</option>
+                            <option value="Dimension EXL 200">Dimension EXL 200</option>
+                            <option value="Mini VIDAS">Mini VIDAS</option>
+                            <option value="VARIANT II">VARIANT II</option>
+                            <option value="Alcor iSED">Alcor iSED</option>
+                            <option value="Beckman Coulter iChem Velocity">Beckman Coulter iChem Velocity</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>المدة (بالأيام):</label>
+                    <input type="number" id="trainingDays" class="form-control" placeholder="مثال: 5" min="1">
+                </div>
+            </div>
+
+            <div id="fieldWarning" class="form-section" style="display:none;">
+                <div class="form-group">
+                    <label>القسم:</label>
+                    <select id="warningDept" class="form-control">
+                        <option value="">-- اختر القسم --</option>
+                        <option value="كيمياء">كيمياء</option>
+                        <option value="هرمون">هرمون</option>
+                        <option value="مناعة">مناعة</option>
+                        <option value="بكتيريا">بكتيريا</option>
+                        <option value="بنك دم">بنك دم</option>
+                        <option value="علم أمراض الدم">علم أمراض الدم</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>نقاط التقصير (اكتب كل نقطة في سطر منفصل):</label>
+                    <textarea id="warningPoints" class="form-control" rows="4" placeholder="1-&#10;2-&#10;3-"></textarea>
+                </div>
+            </div>
+
+            <div id="fieldAssignment" class="form-section" style="display:none;">
+                <div class="form-group">
+                    <label>القسم / الجهاز:</label>
+                    <select id="assignmentDept" class="form-control">
+                        <option value="">-- اختر القسم أو الجهاز --</option>
+                        <optgroup label="الأقسام">
+                            <option value="كيمياء">كيمياء</option>
+                            <option value="هرمون">هرمون</option>
+                            <option value="مناعة">مناعة</option>
+                            <option value="بكتيريا">بكتيريا</option>
+                            <option value="بنك دم">بنك دم</option>
+                            <option value="علم أمراض الدم">علم أمراض الدم</option>
+                        </optgroup>
+                        <optgroup label="الأجهزة">
+                            <option value="Siemens Atellica">Siemens Atellica</option>
+                            <option value="Cobas Pure (C303 + e402)">Cobas Pure (C303 + e402)</option>
+                            <option value="Cobas c311">Cobas c311</option>
+                            <option value="Cobas e411">Cobas e411</option>
+                            <option value="Dimension EXL 200">Dimension EXL 200</option>
+                            <option value="Mini VIDAS">Mini VIDAS</option>
+                            <option value="VARIANT II">VARIANT II</option>
+                            <option value="Alcor iSED">Alcor iSED</option>
+                            <option value="Beckman Coulter iChem Velocity">Beckman Coulter iChem Velocity</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 25px;">
+                <button onclick="generateDocument()" class="btn btn-generator btn-block"><i class="fas fa-magic"></i> توليد النموذج</button>
+                <button onclick="closeGeneratorModal()" class="btn btn-light btn-block">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printArea" class="print-area"></div>
+    <div id="documentArea" class="document-area"></div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
